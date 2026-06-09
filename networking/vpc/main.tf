@@ -153,3 +153,57 @@ output "private_subnet_ids" {
   description = "List of private subnet IDs"
   value       = [aws_subnet.private_1.id, aws_subnet.private_2.id]
 }
+
+# -----------------------------------------------
+# VPC Module — Variables
+# -----------------------------------------------
+# Copy these into your module's variables.tf
+# Override in root terraform.tfvars or per-env
+# tfvars files (staging.tfvars, production.tfvars)
+# -----------------------------------------------
+
+variable "vpc_cidr" {
+  description = "CIDR block for the VPC. /16 gives 65,536 addresses — standard for most projects."
+  type        = string
+  default     = "10.0.0.0/16"
+}
+
+variable "public_subnet_1_cidr" {
+  description = "CIDR for public subnet 1 (AZ-a). Lives in the VPC range. /24 gives 251 usable hosts."
+  type        = string
+  default     = "10.0.1.0/24"
+}
+
+variable "public_subnet_2_cidr" {
+  description = "CIDR for public subnet 2 (AZ-b). Must not overlap with other subnets."
+  type        = string
+  default     = "10.0.2.0/24"
+}
+
+variable "private_subnet_1_cidr" {
+  description = "CIDR for private subnet 1 (AZ-a). No public IP assignment. For EC2, RDS, ElastiCache."
+  type        = string
+  default     = "10.0.3.0/24"
+}
+
+variable "private_subnet_2_cidr" {
+  description = "CIDR for private subnet 2 (AZ-b). Must not overlap with other subnets."
+  type        = string
+  default     = "10.0.4.0/24"
+}
+
+variable "project_name" {
+  description = "Project name used for resource naming and tagging. e.g. 'finflow', 'medbridge'."
+  type        = string
+}
+
+variable "environment" {
+  description = "Deployment environment. Controls tagging and can drive conditional logic."
+  type        = string
+  default     = "dev"
+
+  validation {
+    condition     = contains(["dev", "staging", "production"], var.environment)
+    error_message = "Environment must be dev, staging, or production."
+  }
+}
