@@ -82,6 +82,7 @@ Wraps everything. Build this alongside every other layer.
 |---|---|
 | [IAM](security/iam/) | Controls who and what can access your AWS resources — users, roles, groups, policies |
 | [WAF](security/waf/) | Web Application Firewall — blocks malicious HTTP traffic before it reaches your application |
+| [Cognito](security/cognito/) | Managed user authentication — handles sign up, sign in, and JWT issuance |
 
 ---
 
