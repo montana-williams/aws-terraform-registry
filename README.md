@@ -55,6 +55,7 @@ Your data layer.
 | Service | What it does |
 |---|---|
 | [RDS](storage/rds/) | Managed relational database — MySQL, PostgreSQL, Aurora and more |
+| [ElastiCache](storage/elasticache/) | Managed in-memory cache — Redis or Memcached for sub-millisecond data retrieval |
 | [S3](storage/s3/) | Object storage for files, backups, logs, static assets — virtually unlimited scale |
 
 ### Serverless
