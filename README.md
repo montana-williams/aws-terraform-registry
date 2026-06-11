@@ -74,6 +74,15 @@ The glue that connects services without coupling them directly.
 |---|---|
 | [SQS](messaging/sqs/) | Queue service that decouples services and guarantees message delivery |
 | [EventBridge](messaging/eventbridge/) | Event bus that routes events to targets — scheduling, AWS service events, fan out |
+| [SNS](messaging/sns/) | Push notification service — broadcasts messages immediately to email, SQS, or Lambda |
+
+### Monitoring
+Visibility into your infrastructure. Build this alongside every other layer.
+
+| Service | What it does |
+|---|---|
+| [CloudWatch](monitoring/cloudwatch/) | Metrics, alarms, and logs — the foundation of observability for every AWS service |
+| [CloudTrail](monitoring/cloudtrail/) | API audit logging — records every action taken in your AWS account for security and compliance |
 
 ### Security
 Wraps everything. Build this alongside every other layer.
@@ -90,14 +99,16 @@ Wraps everything. Build this alongside every other layer.
 
 If you are building a project from scratch follow this order — each layer depends on the one before it:
 
+\`\`\`
 Networking   — VPC, subnets, IGW, NAT Gateway, route tables, security groups
 Security     — IAM roles and policies for every service you are about to build
 Compute      — EC2, Auto Scaling, ALB inside your VPC
-Storage      — RDS and S3 attached to your compute layer
+Storage      — RDS, ElastiCache, and S3 attached to your compute layer
 Serverless   — Lambda, API Gateway, DynamoDB for event driven workloads
-Messaging    — SQS and EventBridge to connect everything together
+Messaging    — SQS, EventBridge, and SNS to connect everything together
+Monitoring   — CloudWatch alarms and logs across every layer
 WAF          — attach to ALB or API Gateway as the final security layer
-
+\`\`\`
 
 ---
 
@@ -105,7 +116,7 @@ WAF          — attach to ALB or API Gateway as the final security layer
 
 Built by [Montana Williams](https://www.linkedin.com/in/montana-williams) — a Help Desk Analyst transitioning into cloud engineering. AWS Certified Cloud Practitioner, active security clearance, currently pursuing AWS Solutions Architect Associate.
 
-This registry grew out of building two portfolio projects — a HIPAA compliant patient portal and a PCI-DSS sports betting infrastructure — and wanting a reference that explained not just *how* to write the Terraform but *why* each decision was made.
+This registry grew out of building four portfolio projects — a HIPAA compliant patient portal, a PCI-DSS sports betting platform, a serverless AI agent automation platform, and a financial dashboard — and wanting a reference that explained not just *how* to write the Terraform but *why* each decision was made.
 
 If this helped you or you want to connect — find me on LinkedIn.
 
@@ -114,3 +125,4 @@ If this helped you or you want to connect — find me on LinkedIn.
 ## Disclaimer
 
 The Terraform examples in this registry are for learning and reference purposes. Always review and test infrastructure code in a non-production environment before deploying. AWS costs real money — pay attention to the cost warnings in each entry, especially NAT Gateway and WAF.
+EOF
