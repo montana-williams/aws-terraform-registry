@@ -1,0 +1,45 @@
+# -----------------------------------------------
+# Kubernetes Deployment Template
+# -----------------------------------------------
+# A Deployment manages a set of identical pods.
+# It ensures your desired replica count is always
+# running, replaces crashed pods automatically,
+# and handles rolling updates with zero downtime.
+# -----------------------------------------------
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app                                    # FILL IN: your app name
+  labels:
+    app: app                                   # FILL IN: must match selector below
+
+spec:
+  replicas: 2                                  # FILL IN: how many pods to run minimum
+
+  selector:
+    matchLabels:
+      app: app                                 # FILL IN: must match template labels below
+                                               # This is how the Deployment finds its pods
+
+  template:
+    metadata:
+      labels:
+        app: app                               # FILL IN: must match selector above
+
+    spec:
+      containers:
+        - name: app                            # FILL IN: container name
+          image: your-image:latest             # FILL IN: ECR URI or local image name
+          imagePullPolicy: Never               # Use Never for local minikube
+                                               # Use Always or IfNotPresent for production
+          ports:
+            - containerPort: 8080              # FILL IN: port your app listens on
+
+          resources:
+            requests:
+              memory: "64Mi"                   # Minimum guaranteed memory for scheduling
+              cpu: "250m"                      # 250 millicores = 0.25 CPU cores
+            limits:
+              memory: "128Mi"                  # Hard ceiling — pod killed if exceeded
+              cpu: "500m"                      # Hard ceiling — pod throttled if exceeded

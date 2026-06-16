@@ -1,0 +1,31 @@
+# -----------------------------------------------
+# Kubernetes Service Template
+# -----------------------------------------------
+# A Service gives your pods a stable endpoint.
+# Pods are temporary — they get new IPs when
+# replaced. The Service always routes to whatever
+# pods are currently healthy via label selector.
+#
+# Service Types:
+#   ClusterIP   — internal only (default)
+#   NodePort    — exposes on node port (local dev)
+#   LoadBalancer — provisions cloud LB (production)
+# -----------------------------------------------
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service                            # FILL IN: your service name
+
+spec:
+  type: NodePort                               # FILL IN: NodePort for local, LoadBalancer for prod
+
+  selector:
+    app: app                                   # FILL IN: must match Deployment pod labels
+                                               # This is how Service finds pods to route to
+
+  ports:
+    - port: 80                                 # Port the Service listens on inside cluster
+      targetPort: 8080                         # Port on the pod to forward traffic to
+      nodePort: 30080                          # Port exposed on the node (NodePort only)
+                                               # Must be between 30000-32767

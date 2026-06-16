@@ -1,0 +1,45 @@
+# -----------------------------------------------
+# GitHub Actions — Build and Push to ECR
+# -----------------------------------------------
+# Triggers on push to main.
+# Builds Docker image and pushes to Amazon ECR.
+#
+# Required GitHub Secrets:
+#   AWS_ACCESS_KEY_ID
+#   AWS_SECRET_ACCESS_KEY
+#   AWS_ACCOUNT_ID
+# -----------------------------------------------
+
+name: Build and Push to ECR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}         # Commit SHA as tag — enables rollbacks
+        run: |
+          docker build -t $ECR_REGISTRY/your-repo-name:$IMAGE_TAG .   # FILL IN: your ECR repo name
+          docker push $ECR_REGISTRY/your-repo-name:$IMAGE_TAG

@@ -1,0 +1,34 @@
+# -----------------------------------------------
+# Horizontal Pod Autoscaler Template
+# -----------------------------------------------
+# HPA watches a metric and scales pod count up
+# or down to hit a target. Same concept as AWS
+# Auto Scaling target tracking policies.
+#
+# ASG equivalent:
+#   min_size         = minReplicas
+#   max_size         = maxReplicas
+#   target_value     = averageUtilization
+# -----------------------------------------------
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: app-hpa                                # FILL IN: your HPA name
+
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: app                                  # FILL IN: must match your Deployment name
+
+  minReplicas: 2                               # FILL IN: minimum pods always running
+  maxReplicas: 10                              # FILL IN: maximum pods during peak load
+
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70               # FILL IN: scale up when avg CPU exceeds this %

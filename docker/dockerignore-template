@@ -1,0 +1,40 @@
+# -----------------------------------------------
+# .dockerignore
+# -----------------------------------------------
+# Excludes files from the Docker build context.
+# Without this, Docker sends EVERYTHING to the
+# daemon before building — including state files,
+# secrets, and node_modules. Can bloat context
+# from KB to GB. Always add this before first build.
+# -----------------------------------------------
+
+# Terraform
+.terraform
+**/.terraform
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+terraform.tfvars
+*.zip
+
+# AWS
+aws/
+
+# Git
+.git
+.github
+.gitignore
+
+# Docs
+*.md
+LICENSE
+THIRD_PARTY_LICENSE
+
+# Python
+__pycache__
+*.pyc
+.env
+
+# Node
+node_modules
+npm-debug.log

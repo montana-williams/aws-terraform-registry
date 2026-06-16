@@ -1,0 +1,31 @@
+# -----------------------------------------------
+# docker-compose.yml Template
+# -----------------------------------------------
+# Defines your local container environment.
+# Replaces long docker run commands with one file.
+# Run with: docker compose up
+# Stop with: docker compose down
+# -----------------------------------------------
+
+services:
+  app:                                         # FILL IN: your service name
+    build: .                                   # Build from Dockerfile in current directory
+    container_name: app-local                  # FILL IN: name for local container
+    ports:
+      - "8080:8080"                            # FILL IN: host:container port mapping
+    environment:
+      - ENV=local                              # FILL IN: environment variables your app needs
+    restart: unless-stopped                    # Restart on crash, stop manually to keep stopped
+
+  # -----------------------------------------------
+  # Optional: Add a database for local dev
+  # -----------------------------------------------
+  # db:
+  #   image: postgres:15
+  #   container_name: postgres-local
+  #   environment:
+  #     - POSTGRES_USER=admin
+  #     - POSTGRES_PASSWORD=localpassword
+  #     - POSTGRES_DB=appdb
+  #   ports:
+  #     - "5432:5432"
